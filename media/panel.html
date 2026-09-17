@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy"
+          content="default-src 'none'; style-src {{cspSource}} 'unsafe-inline'; font-src {{cspSource}}; script-src 'nonce-{{nonce}}';">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{cssUri}}">
+    <style id="previewStyle"></style>
+    <title>Claude Style Settings</title>
+</head>
+<body>
+    <h1>Claude Style Settings</h1>
+
+    <section class="fonts">
+        <div class="font-row">
+            <h2>English</h2>
+            <label>Font <input id="englishFont" list="allFonts" autocomplete="off"></label>
+            <label>Size <input id="englishSize" type="number" min="6" max="100"></label>
+        </div>
+        <div class="font-row">
+            <h2>Khmer</h2>
+            <label>Font <input id="khmerFont" list="khmerFonts" autocomplete="off"></label>
+            <label>Size <input id="khmerSize" type="number" min="6" max="100"></label>
+        </div>
+        <datalist id="allFonts"></datalist>
+        <datalist id="khmerFonts"></datalist>
+        <p class="hint">Fonts apply to Claude Code chat and the terminal.</p>
+    </section>
+
+    <section>
+        <h2>Text styles</h2>
+        <p class="hint">Leave a box empty to keep Claude Code's normal look. Grey boxes don't apply to that item.</p>
+        <div class="table-scroll">
+        <table id="styles">
+            <thead>
+                <tr><th>Item</th><th>Font</th><th>Size</th><th>Color</th><th>Background</th><th>Border / line</th><th>Weight</th><th>Italic</th><th>Underline</th></tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+        </div>
+    </section>
+
+    <div class="actions">
+        <button id="apply" class="primary">Apply</button>
+        <button id="reset" class="secondary">Reset to normal</button>
+        <span id="status" role="status"></span>
+    </div>
+
+    <section>
+        <h2>Preview</h2>
+        <p class="hint">This looks like the Claude Code chat panel. Only the parts your settings change are live.</p>
+        <div id="preview" class="chat">
+            <div class="msg">
+                <div class="user-bubble">សួស្តី Claude! Can you show me a sample reply with every kind of text?</div>
+            </div>
+
+            <div class="msg timeline">
+                <div class="md"><p>Sure — let me check the project first. ខ្ញុំនឹងពិនិត្យមើលគម្រោងជាមុនសិន។</p></div>
+            </div>
+
+            <div class="msg timeline dot-ok">
+                <div class="tool-name"><b>Bash</b><span class="tool-sub">List source files</span></div>
+                <div class="tool-body">
+                    <div class="tool-row"><div class="tool-label">IN</div><div class="tool-content mono">ls src/</div></div>
+                    <div class="tool-row"><div class="tool-label">OUT</div><div class="tool-content mono">cssBuilder.ts
+extension.ts
+ឯកសារ.md</div></div>
+                </div>
+            </div>
+
+            <div class="msg timeline">
+                <div class="md">
+                    <h1>Heading 1 · ចំណងជើង ១</h1>
+                    <p>This is normal text in a reply. នេះគឺជាអត្ថបទធម្មតានៅក្នុងចម្លើយ។ It has <strong>bold · ដិត</strong>, <em>italic · ទ្រេត</em>, <del>crossed-out · លុបចោល</del>, a <a href="#">link · តំណភ្ជាប់</a> and <code>inline code</code>.</p>
+                    <h2>Heading 2 · ចំណងជើង ២</h2>
+                    <ul>
+                        <li>List item · ធាតុបញ្ជី</li>
+                        <li>Another item with <code>code</code></li>
+                    </ul>
+                    <h3>Heading 3 · ចំណងជើង ៣</h3>
+                    <ol>
+                        <li>First step · ជំហានទី១</li>
+                        <li>Second step · ជំហានទី២</li>
+                    </ol>
+                    <h4>Heading 4 · ចំណងជើង ៤</h4>
+                    <div class="code-wrap"><pre><code>function hello(name) {
+    return "សួស្តី " + name;
+}</code></pre></div>
+                    <h5>Heading 5 · ចំណងជើង ៥</h5>
+                    <blockquote><p>A quote from the docs · សម្រង់សម្តីពីឯកសារ</p></blockquote>
+                    <h6>Heading 6 · ចំណងជើង ៦</h6>
+                    <table>
+                        <thead><tr><th>Setting · ការកំណត់</th><th>Value</th></tr></thead>
+                        <tbody>
+                            <tr><td>English font</td><td>JetBrains Mono</td></tr>
+                            <tr><td>ពុម្ពអក្សរខ្មែរ</td><td>Khmer OS System</td></tr>
+                        </tbody>
+                    </table>
+                    <hr>
+                    <p><strong>Summary</strong>: everything above uses your styles. សង្ខេប៖ អ្វីៗទាំងអស់ប្រើរចនាបថរបស់អ្នក។</p>
+                </div>
+            </div>
+
+            <div class="input-box">
+                <div class="input-text">Ask Claude to edit… · សួរ Claude…</div>
+                <div class="input-bar"><span class="chip">⏵⏵ auto mode</span><span class="send">↑</span></div>
+            </div>
+        </div>
+    </section>
+
+    <script nonce="{{nonce}}" src="{{jsUri}}"></script>
+</body>
+</html>

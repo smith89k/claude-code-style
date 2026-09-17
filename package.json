@@ -1,0 +1,76 @@
+{
+  "name": "claude-code-style",
+  "displayName": "Claude Code Style",
+  "description": "Pick English and Khmer fonts and sizes, and style every text item in Claude Code chat.",
+  "version": "0.3.1",
+  "publisher": "antigravity",
+  "icon": "logo.png",
+  "repository": "https://github.com/antigravity/claude-code-style",
+  "engines": {
+    "vscode": "^1.80.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "claudeCodeStyle.openSettings",
+        "title": "Claude Style: Open Settings"
+      },
+      {
+        "command": "claudeCodeStyle.removeStyles",
+        "title": "Claude Style: Remove My Styles"
+      }
+    ],
+    "configuration": {
+      "title": "Claude Code Style",
+      "properties": {
+        "claudeCodeStyle.englishFont": {
+          "type": "string",
+          "default": "JetBrains Mono",
+          "description": "Font for English text in Claude Code chat and the terminal."
+        },
+        "claudeCodeStyle.englishSize": {
+          "type": "number",
+          "default": 14,
+          "minimum": 6,
+          "maximum": 100,
+          "description": "Size (px) for English text."
+        },
+        "claudeCodeStyle.khmerFont": {
+          "type": "string",
+          "default": "Khmer OS System",
+          "description": "Font for Khmer text."
+        },
+        "claudeCodeStyle.khmerSize": {
+          "type": "number",
+          "default": 14,
+          "minimum": 6,
+          "maximum": 100,
+          "description": "Size (px) for Khmer text."
+        },
+        "claudeCodeStyle.elements": {
+          "type": "object",
+          "default": {},
+          "description": "Styles for Claude Code chat items: text, h1-h6, bold, italic, strike, link, code, codeBlock, list, bullet, quote, tableHeader, tableCell, divider. Each: { font, size, color, background, border, weight, italic, underline }."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "test": "tsc -p ./ && node --test \"out/test/*.test.js\""
+  },
+  "devDependencies": {
+    "@types/node": "^18.0.0",
+    "@types/vscode": "^1.80.0",
+    "typescript": "^5.0.0"
+  }
+}
