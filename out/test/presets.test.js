@@ -2,9 +2,12 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const node_test_1 = require("node:test");
 const assert = require("node:assert/strict");
+const fs = require("fs");
+const path = require("path");
 const styleConfig_1 = require("../styleConfig");
 const presets_1 = require("../presets");
 const HEX6 = /^#[0-9a-f]{6}$/;
+const media = path.join(__dirname, '..', '..', 'media');
 (0, node_test_1.test)('there are 12 presets with unique ids and known groups', () => {
     assert.equal(presets_1.PRESETS.length, 12);
     assert.equal(new Set(presets_1.PRESETS.map((p) => p.id)).size, 12);
@@ -56,5 +59,37 @@ const HEX6 = /^#[0-9a-f]{6}$/;
         group: 'dark',
         elements: (0, presets_1.presetElements)(presets_1.PRESETS[0].palette),
     });
+});
+function listFromPanel(name) {
+    const js = fs.readFileSync(path.join(media, 'panel.js'), 'utf8');
+    const match = new RegExp(`const ${name} = (\\[[^\\]]*\\]);`).exec(js);
+    assert.ok(match, `${name} not found in panel.js`);
+    return JSON.parse(match[1].replace(/'/g, '"'));
+}
+(0, node_test_1.test)('presets never fill a box the page disables', () => {
+    const noText = listFromPanel('NO_TEXT');
+    const noBackground = listFromPanel('NO_BACKGROUND');
+    const hasBorder = listFromPanel('HAS_BORDER');
+    for (const p of presets_1.PRESETS) {
+        for (const [key, style] of Object.entries((0, presets_1.presetElements)(p.palette))) {
+            if (noText.includes(key)) {
+                assert.equal(style?.color, undefined, `${p.id}.${key}.color`);
+            }
+            if (noBackground.includes(key)) {
+                assert.equal(style?.background, undefined, `${p.id}.${key}.background`);
+            }
+            if (!hasBorder.includes(key)) {
+                assert.equal(style?.border, undefined, `${p.id}.${key}.border`);
+            }
+        }
+    }
+});
+(0, node_test_1.test)('panel has the preset select, hint and placeholder text', () => {
+    const html = fs.readFileSync(path.join(media, 'panel.html'), 'utf8');
+    assert.ok(html.includes('id="preset"'), 'select');
+    assert.ok(html.includes('id="presetHint"'), 'hint');
+    const js = fs.readFileSync(path.join(media, 'panel.js'), 'utf8');
+    assert.ok(js.includes("'Choose a preset…'"), 'placeholder');
+    assert.ok(js.includes("'For light editor themes'"), 'light hint');
 });
 //# sourceMappingURL=presets.test.js.map

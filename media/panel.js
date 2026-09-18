@@ -111,6 +111,47 @@
 
     const yesNo = (flag) => (flag === undefined ? '' : flag ? 'yes' : 'no');
 
+    const COLOR_PROPS = ['color', 'background', 'border'];
+
+    function setColor(row, prop, value) {
+        field(row, 'f-' + prop).value = value || '';
+        field(row, 'f-' + prop + '-picker').value = HEX6.test(value || '') ? value : '#ffffff';
+    }
+
+    /** @type {{ id: string, label: string, group: string, elements: Record<string, Record<string, string>> }[]} */
+    let presets = [];
+
+    function fillPresets(list) {
+        presets = list;
+        const groups = { dark: el('optgroup', { label: 'Dark' }), light: el('optgroup', { label: 'Light' }) };
+        for (const preset of list) {
+            groups[preset.group].append(el('option', { value: preset.id, textContent: preset.label }));
+        }
+        $('preset').replaceChildren(el('option', { value: '', textContent: 'Choose a preset…' }), groups.dark, groups.light);
+    }
+
+    function applyPreset(id) {
+        const preset = presets.find((p) => p.id === id);
+        $('presetHint').textContent = preset && preset.group === 'light' ? 'For light editor themes' : '';
+        if (!preset) {
+            return;
+        }
+        for (const row of tbody.querySelectorAll('tr')) {
+            const style = preset.elements[row.dataset.key] || {};
+            for (const prop of COLOR_PROPS) {
+                setColor(row, prop, style[prop]);
+            }
+        }
+    }
+
+    // Any manual edit means the boxes no longer match a preset
+    function clearPreset(event) {
+        if (event.target !== $('preset')) {
+            $('preset').value = '';
+            $('presetHint').textContent = '';
+        }
+    }
+
     function fillForm(config) {
         $('englishFont').value = config.englishFont;
         $('englishSize').value = String(config.englishSize);
@@ -120,9 +161,8 @@
             const style = config.elements[row.dataset.key] || {};
             field(row, 'f-font').value = style.font || '';
             field(row, 'f-size').value = style.size ? String(style.size) : '';
-            for (const prop of ['color', 'background', 'border']) {
-                field(row, 'f-' + prop).value = style[prop] || '';
-                field(row, 'f-' + prop + '-picker').value = HEX6.test(style[prop] || '') ? style[prop] : '#ffffff';
+            for (const prop of COLOR_PROPS) {
+                setColor(row, prop, style[prop]);
             }
             field(row, 'f-weight').value = style.weight || '';
             field(row, 'f-italic').value = yesNo(style.italic);
@@ -152,6 +192,7 @@
         if (msg.type === 'init') {
             fillList('allFonts', msg.fonts.all);
             fillList('khmerFonts', msg.fonts.khmer.length ? msg.fonts.khmer : msg.fonts.all);
+            fillPresets(msg.presets || []);
             fillForm(msg.config);
             changed();
         } else if (msg.type === 'previewCss') {
@@ -165,6 +206,10 @@
     });
 
     buildRows();
+    // Registered before the body listeners so the boxes are filled before the preview is requested
+    $('preset').addEventListener('change', () => applyPreset($('preset').value));
+    document.body.addEventListener('input', clearPreset);
+    document.body.addEventListener('change', clearPreset);
     document.body.addEventListener('input', changed);
     document.body.addEventListener('change', changed);
     $('apply').addEventListener('click', () => {

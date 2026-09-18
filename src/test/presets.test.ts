@@ -1,9 +1,12 @@
 import { test } from 'node:test';
 import * as assert from 'node:assert/strict';
+import * as fs from 'fs';
+import * as path from 'path';
 import { ELEMENT_KEYS, sanitizeConfig } from '../styleConfig';
 import { PRESETS, ROLES, presetElements, presetMessages } from '../presets';
 
 const HEX6 = /^#[0-9a-f]{6}$/;
+const media = path.join(__dirname, '..', '..', 'media');
 
 test('there are 12 presets with unique ids and known groups', () => {
     assert.equal(PRESETS.length, 12);
@@ -64,4 +67,39 @@ test('presetMessages carries id, label, group and elements', () => {
         group: 'dark',
         elements: presetElements(PRESETS[0].palette),
     });
+});
+
+function listFromPanel(name: string): string[] {
+    const js = fs.readFileSync(path.join(media, 'panel.js'), 'utf8');
+    const match = new RegExp(`const ${name} = (\\[[^\\]]*\\]);`).exec(js);
+    assert.ok(match, `${name} not found in panel.js`);
+    return JSON.parse(match[1].replace(/'/g, '"'));
+}
+
+test('presets never fill a box the page disables', () => {
+    const noText = listFromPanel('NO_TEXT');
+    const noBackground = listFromPanel('NO_BACKGROUND');
+    const hasBorder = listFromPanel('HAS_BORDER');
+    for (const p of PRESETS) {
+        for (const [key, style] of Object.entries(presetElements(p.palette))) {
+            if (noText.includes(key)) {
+                assert.equal(style?.color, undefined, `${p.id}.${key}.color`);
+            }
+            if (noBackground.includes(key)) {
+                assert.equal(style?.background, undefined, `${p.id}.${key}.background`);
+            }
+            if (!hasBorder.includes(key)) {
+                assert.equal(style?.border, undefined, `${p.id}.${key}.border`);
+            }
+        }
+    }
+});
+
+test('panel has the preset select, hint and placeholder text', () => {
+    const html = fs.readFileSync(path.join(media, 'panel.html'), 'utf8');
+    assert.ok(html.includes('id="preset"'), 'select');
+    assert.ok(html.includes('id="presetHint"'), 'hint');
+    const js = fs.readFileSync(path.join(media, 'panel.js'), 'utf8');
+    assert.ok(js.includes("'Choose a preset…'"), 'placeholder');
+    assert.ok(js.includes("'For light editor themes'"), 'light hint');
 });

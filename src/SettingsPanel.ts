@@ -5,6 +5,7 @@ import { applyStyles, readConfig, removeStyles } from './settingsApplier';
 import { fontFamilies, listSystemFonts } from './systemFonts';
 import { buildCss, chatFamilyList } from './cssBuilder';
 import { sanitizeConfig } from './styleConfig';
+import { presetMessages } from './presets';
 
 export class SettingsPanel {
     public static currentPanel: SettingsPanel | undefined;
@@ -52,7 +53,7 @@ export class SettingsPanel {
         switch (message.type) {
             case 'ready': {
                 const fonts = fontFamilies(await listSystemFonts());
-                await this._post({ type: 'init', config: readConfig(), fonts });
+                await this._post({ type: 'init', config: readConfig(), fonts, presets: presetMessages() });
                 return;
             }
             case 'preview': {
@@ -89,7 +90,7 @@ export class SettingsPanel {
             }
             case 'reset': {
                 await removeStyles(this._ctx);
-                await this._post({ type: 'init', config: readConfig(), fonts: fontFamilies(await listSystemFonts()) });
+                await this._post({ type: 'init', config: readConfig(), fonts: fontFamilies(await listSystemFonts()), presets: presetMessages() });
                 await this._post({ type: 'status', text: 'Back to normal. Reload the window to see it.', kind: 'ok' });
                 return;
             }

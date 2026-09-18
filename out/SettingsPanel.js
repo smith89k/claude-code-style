@@ -8,6 +8,7 @@ const settingsApplier_1 = require("./settingsApplier");
 const systemFonts_1 = require("./systemFonts");
 const cssBuilder_1 = require("./cssBuilder");
 const styleConfig_1 = require("./styleConfig");
+const presets_1 = require("./presets");
 class SettingsPanel {
     constructor(panel, _ctx) {
         this._ctx = _ctx;
@@ -43,7 +44,7 @@ class SettingsPanel {
         switch (message.type) {
             case 'ready': {
                 const fonts = (0, systemFonts_1.fontFamilies)(await (0, systemFonts_1.listSystemFonts)());
-                await this._post({ type: 'init', config: (0, settingsApplier_1.readConfig)(), fonts });
+                await this._post({ type: 'init', config: (0, settingsApplier_1.readConfig)(), fonts, presets: (0, presets_1.presetMessages)() });
                 return;
             }
             case 'preview': {
@@ -80,7 +81,7 @@ class SettingsPanel {
             }
             case 'reset': {
                 await (0, settingsApplier_1.removeStyles)(this._ctx);
-                await this._post({ type: 'init', config: (0, settingsApplier_1.readConfig)(), fonts: (0, systemFonts_1.fontFamilies)(await (0, systemFonts_1.listSystemFonts)()) });
+                await this._post({ type: 'init', config: (0, settingsApplier_1.readConfig)(), fonts: (0, systemFonts_1.fontFamilies)(await (0, systemFonts_1.listSystemFonts)()), presets: (0, presets_1.presetMessages)() });
                 await this._post({ type: 'status', text: 'Back to normal. Reload the window to see it.', kind: 'ok' });
                 return;
             }
