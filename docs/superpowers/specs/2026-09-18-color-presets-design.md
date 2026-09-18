@@ -110,9 +110,10 @@ when selected, because the chat background follows the editor theme.
 
 ## Error handling
 
-Presets are static data validated by tests; no runtime failure paths. Rows
-whose colour inputs are disabled (e.g. Bullet background) are skipped, and
-`sanitizeConfig` already drops any field that does not apply.
+Presets are static data validated by tests; no runtime failure paths. The
+mapping never sets a field the page disables for that row (e.g. Bullet
+background, Divider color); a test checks this against the page's
+`NO_TEXT` / `NO_BACKGROUND` / `HAS_BORDER` lists.
 
 ## Testing
 
