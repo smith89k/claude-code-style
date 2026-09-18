@@ -1,16 +1,39 @@
 {
   "name": "claude-code-style",
   "displayName": "Claude Code Style",
-  "description": "Pick English and Khmer fonts and sizes, and style every text item in Claude Code chat.",
+  "description": "Pick your own English and Khmer fonts and sizes, and style every kind of text in the Claude Code chat panel.",
   "version": "0.3.1",
-  "publisher": "antigravity",
+  "publisher": "smith89k",
   "icon": "logo.png",
-  "repository": "https://github.com/antigravity/claude-code-style",
+  "license": "MIT",
+  "galleryBanner": {
+    "color": "#1f1f1f",
+    "theme": "dark"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/smith89k/claude-code-style.git"
+  },
+  "homepage": "https://github.com/smith89k/claude-code-style#readme",
+  "bugs": {
+    "url": "https://github.com/smith89k/claude-code-style/issues"
+  },
   "engines": {
     "vscode": "^1.80.0"
   },
   "categories": [
     "Other"
+  ],
+  "keywords": [
+    "claude",
+    "claude code",
+    "khmer",
+    "font",
+    "fonts",
+    "chat",
+    "style",
+    "markdown",
+    "terminal"
   ],
   "activationEvents": [
     "onStartupFinished"

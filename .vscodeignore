@@ -7,3 +7,5 @@ out/test/**
 *.vsix
 tsconfig.json
 node_modules/**
+images/**
+.gitignore
