@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import * as assert from 'node:assert/strict';
-import { sanitizeConfig, DEFAULT_CONFIG } from '../styleConfig';
-import { buildCss, chatFamilyList, khmerScale } from '../cssBuilder';
+import { sanitizeConfig, DEFAULT_CONFIG, ELEMENT_KEYS } from '../styleConfig';
+import { buildCss, chatFamilyList, khmerScale, previewSelectors } from '../cssBuilder';
 
 const base = {
     englishFont: 'JetBrains Mono',
@@ -128,4 +128,44 @@ test('new text rows map to their tags', () => {
     assert.match(css, /\.root_x del, \.root_x s {/);
     assert.match(css, /\.root_x li {/);
     assert.match(css, /\.root_x th {/);
+});
+
+test('tool rows use prefix selectors, bare in Claude Code and scoped in the preview', () => {
+    const cfg = sanitizeConfig({ ...base, elements: { toolName: { color: '#ff0000' }, toolBox: { background: '#111111', border: '#222222' } } });
+    const real = buildCss(cfg, '.root_x');
+    assert.match(real, /\n\[class\*="toolNameText_"\] {\n  color: #ff0000;\n}/);
+    assert.match(real, /\n\[class\*="toolBody_"\] {\n  background: #111111;\n}/);
+    assert.match(real, /\n\[class\*="toolBody_"\], \[class\*="toolBodyRow_"\] {\n  border-color: #222222;\n}/);
+    assert.doesNotMatch(real, /\.root_x \[class/);
+    const preview = buildCss(cfg, '#preview .md', '#preview');
+    assert.match(preview, /#preview \[class\*="toolNameText_"\] {\n  color: #ff0000;\n}/);
+});
+
+test('IN / OUT label colour shows at full opacity', () => {
+    const css = cssFor({ toolLabel: { color: '#abcdef' }, toolName: { color: '#123456' } });
+    assert.match(css, /\[class\*="toolBodyRowLabel_"\] {\n  color: #abcdef;\n  opacity: 1;\n}/);
+    assert.match(css, /\[class\*="toolNameText_"\] {\n  color: #123456;\n}/);
+    assert.doesNotMatch(cssFor({ toolLabel: { size: 11 } }), /opacity/);
+});
+
+test('tool description covers both Claude Code variants', () => {
+    const css = cssFor({ toolDescription: { italic: true } });
+    assert.match(css, /\[class\*="toolNameTextSecondary_"\], \[class\*="toolNameTextSecondaryPlaintext_"\] {\n  font-style: italic;\n}/);
+});
+
+test('tool content styles its pre and code too', () => {
+    const css = cssFor({ toolContent: { size: 12 } });
+    assert.match(css, /\[class\*="toolBodyRowContent_"\], \[class\*="toolBodyRowContent_"\] pre, \[class\*="toolBodyRowContent_"\] code {\n  font-size: 12px;\n}/);
+});
+
+test('previewSelectors scopes each row and drops pseudo-elements', () => {
+    const s = previewSelectors();
+    assert.deepEqual(Object.keys(s), ELEMENT_KEYS);
+    assert.equal(s.text, '#preview .md p');
+    assert.equal(s.bullet, '#preview .md li');
+    assert.equal(s.code, '#preview .md :not(pre) > code');
+    assert.equal(s.codeBlock, '#preview .md pre code, #preview .md pre');
+    assert.equal(s.divider, '#preview .md hr');
+    assert.equal(s.toolBox, '#preview [class*="toolBody_"]');
+    assert.equal(s.toolLabel, '#preview [class*="toolBodyRowLabel_"]');
 });

@@ -110,4 +110,39 @@ function cssFor(elements) {
     assert.match(css, /\.root_x li {/);
     assert.match(css, /\.root_x th {/);
 });
+(0, node_test_1.test)('tool rows use prefix selectors, bare in Claude Code and scoped in the preview', () => {
+    const cfg = (0, styleConfig_1.sanitizeConfig)({ ...base, elements: { toolName: { color: '#ff0000' }, toolBox: { background: '#111111', border: '#222222' } } });
+    const real = (0, cssBuilder_1.buildCss)(cfg, '.root_x');
+    assert.match(real, /\n\[class\*="toolNameText_"\] {\n  color: #ff0000;\n}/);
+    assert.match(real, /\n\[class\*="toolBody_"\] {\n  background: #111111;\n}/);
+    assert.match(real, /\n\[class\*="toolBody_"\], \[class\*="toolBodyRow_"\] {\n  border-color: #222222;\n}/);
+    assert.doesNotMatch(real, /\.root_x \[class/);
+    const preview = (0, cssBuilder_1.buildCss)(cfg, '#preview .md', '#preview');
+    assert.match(preview, /#preview \[class\*="toolNameText_"\] {\n  color: #ff0000;\n}/);
+});
+(0, node_test_1.test)('IN / OUT label colour shows at full opacity', () => {
+    const css = cssFor({ toolLabel: { color: '#abcdef' }, toolName: { color: '#123456' } });
+    assert.match(css, /\[class\*="toolBodyRowLabel_"\] {\n  color: #abcdef;\n  opacity: 1;\n}/);
+    assert.match(css, /\[class\*="toolNameText_"\] {\n  color: #123456;\n}/);
+    assert.doesNotMatch(cssFor({ toolLabel: { size: 11 } }), /opacity/);
+});
+(0, node_test_1.test)('tool description covers both Claude Code variants', () => {
+    const css = cssFor({ toolDescription: { italic: true } });
+    assert.match(css, /\[class\*="toolNameTextSecondary_"\], \[class\*="toolNameTextSecondaryPlaintext_"\] {\n  font-style: italic;\n}/);
+});
+(0, node_test_1.test)('tool content styles its pre and code too', () => {
+    const css = cssFor({ toolContent: { size: 12 } });
+    assert.match(css, /\[class\*="toolBodyRowContent_"\], \[class\*="toolBodyRowContent_"\] pre, \[class\*="toolBodyRowContent_"\] code {\n  font-size: 12px;\n}/);
+});
+(0, node_test_1.test)('previewSelectors scopes each row and drops pseudo-elements', () => {
+    const s = (0, cssBuilder_1.previewSelectors)();
+    assert.deepEqual(Object.keys(s), styleConfig_1.ELEMENT_KEYS);
+    assert.equal(s.text, '#preview .md p');
+    assert.equal(s.bullet, '#preview .md li');
+    assert.equal(s.code, '#preview .md :not(pre) > code');
+    assert.equal(s.codeBlock, '#preview .md pre code, #preview .md pre');
+    assert.equal(s.divider, '#preview .md hr');
+    assert.equal(s.toolBox, '#preview [class*="toolBody_"]');
+    assert.equal(s.toolLabel, '#preview [class*="toolBodyRowLabel_"]');
+});
 //# sourceMappingURL=cssBuilder.test.js.map

@@ -2,16 +2,38 @@
 (function () {
     // @ts-ignore
     const vscode = acquireVsCodeApi();
-    const KEYS = ['text', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'bold', 'italic', 'strike', 'link', 'code', 'codeBlock', 'list', 'bullet', 'quote', 'tableHeader', 'tableCell', 'divider'];
+    const KEYS = ['text', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'bold', 'italic', 'strike', 'link', 'code', 'codeBlock', 'list', 'bullet', 'quote', 'tableHeader', 'tableCell', 'divider', 'toolName', 'toolDescription', 'toolBox', 'toolLabel', 'toolContent'];
+    // [name, text copied exactly from the preview panel]; a test checks the brackets
     const LABELS = {
-        text: 'Normal text', h1: 'Heading 1', h2: 'Heading 2', h3: 'Heading 3', h4: 'Heading 4', h5: 'Heading 5', h6: 'Heading 6',
-        bold: 'Bold', italic: 'Italic text', strike: 'Crossed-out', link: 'Link', code: 'Code snippet', codeBlock: 'Code block',
-        list: 'List item', bullet: 'Bullet / number', quote: 'Quote', tableHeader: 'Table header', tableCell: 'Table cell', divider: 'Divider line',
+        text: ['Normal text', 'This is normal text'],
+        h1: ['Heading 1', ''],
+        h2: ['Heading 2', ''],
+        h3: ['Heading 3', ''],
+        h4: ['Heading 4', ''],
+        h5: ['Heading 5', ''],
+        h6: ['Heading 6', ''],
+        bold: ['Bold', 'bold · ដិត'],
+        italic: ['Italic', 'italic · ទ្រេត'],
+        strike: ['Crossed-out', 'crossed-out · លុបចោល'],
+        link: ['Link', 'link · តំណភ្ជាប់'],
+        code: ['Inline code', 'inline code'],
+        codeBlock: ['Code block', 'function hello(name)'],
+        list: ['List item', 'List item · ធាតុបញ្ជី'],
+        bullet: ['Bullet / number', '•, 1., 2.'],
+        quote: ['Quote', 'A quote from the docs'],
+        tableHeader: ['Table header', 'Setting · ការកំណត់, Value'],
+        tableCell: ['Table cell', 'English font, JetBrains Mono'],
+        divider: ['Divider line', ''],
+        toolName: ['Tool name', 'Bash'],
+        toolDescription: ['Tool description', 'List source files'],
+        toolBox: ['Tool box', ''],
+        toolLabel: ['IN / OUT label', 'IN, OUT'],
+        toolContent: ['IN / OUT content', 'ls src/, cssBuilder.ts'],
     };
     // Which boxes make sense for each row; the rest are disabled
-    const NO_TEXT = ['divider'];
-    const NO_BACKGROUND = ['bullet', 'divider'];
-    const HAS_BORDER = ['code', 'codeBlock', 'quote', 'tableHeader', 'tableCell', 'divider'];
+    const NO_TEXT = ['divider', 'toolBox'];
+    const NO_BACKGROUND = ['bullet', 'divider', 'toolName', 'toolDescription', 'toolLabel', 'toolContent'];
+    const HAS_BORDER = ['code', 'codeBlock', 'quote', 'tableHeader', 'tableCell', 'divider', 'toolBox'];
     const WEIGHTS = ['', 'normal', '300', '400', '500', '600', 'bold', '800', '900'];
     const HEX6 = /^#[0-9a-f]{6}$/i;
 
@@ -61,7 +83,12 @@
             const noText = NO_TEXT.includes(key);
             const row = el('tr');
             row.dataset.key = key;
-            row.append(el('td', { textContent: LABELS[key], className: 'item' }));
+            const [name, brackets] = LABELS[key];
+            const item = el('td', { textContent: name, className: 'item' });
+            if (brackets) {
+                item.append(' ', el('span', { className: 'example', textContent: '(' + brackets + ')' }));
+            }
+            row.append(item);
 
             const font = el('input', { className: 'f-font', placeholder: 'default' });
             font.setAttribute('list', 'allFonts');

@@ -80,7 +80,7 @@
         "claudeCodeStyle.elements": {
           "type": "object",
           "default": {},
-          "description": "Styles for Claude Code chat items: text, h1-h6, bold, italic, strike, link, code, codeBlock, list, bullet, quote, tableHeader, tableCell, divider. Each: { font, size, color, background, border, weight, italic, underline }."
+          "description": "Styles for Claude Code chat items: text, h1-h6, bold, italic, strike, link, code, codeBlock, list, bullet, quote, tableHeader, tableCell, divider, toolName, toolDescription, toolBox, toolLabel, toolContent. Each: { font, size, color, background, border, weight, italic, underline }."
         }
       }
     }

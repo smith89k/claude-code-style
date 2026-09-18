@@ -28,6 +28,11 @@ const MAPPING = {
     tableHeader: { color: 'blue', background: 'surface', border: 'line' },
     tableCell: { color: 'text', border: 'line' },
     divider: { border: 'line' },
+    toolName: { color: 'text' },
+    toolDescription: { color: 'blue' },
+    toolBox: { background: 'deep', border: 'line' },
+    toolLabel: { color: 'muted' },
+    toolContent: { color: 'text' },
 };
 // Values copied from each theme's official palette (sources in the plan / spec)
 exports.PRESETS = [

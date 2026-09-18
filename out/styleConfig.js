@@ -7,6 +7,7 @@ exports.ELEMENT_KEYS = [
     'text', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
     'bold', 'italic', 'strike', 'link', 'code', 'codeBlock',
     'list', 'bullet', 'quote', 'tableHeader', 'tableCell', 'divider',
+    'toolName', 'toolDescription', 'toolBox', 'toolLabel', 'toolContent',
 ];
 exports.DEFAULT_CONFIG = {
     englishFont: 'JetBrains Mono',

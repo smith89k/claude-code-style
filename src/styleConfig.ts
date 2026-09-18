@@ -1,7 +1,8 @@
 export type ElementKey =
     | 'text' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'
     | 'bold' | 'italic' | 'strike' | 'link' | 'code' | 'codeBlock'
-    | 'list' | 'bullet' | 'quote' | 'tableHeader' | 'tableCell' | 'divider';
+    | 'list' | 'bullet' | 'quote' | 'tableHeader' | 'tableCell' | 'divider'
+    | 'toolName' | 'toolDescription' | 'toolBox' | 'toolLabel' | 'toolContent';
 
 export interface ElementStyle {
     font?: string;
@@ -26,6 +27,7 @@ export const ELEMENT_KEYS: ElementKey[] = [
     'text', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
     'bold', 'italic', 'strike', 'link', 'code', 'codeBlock',
     'list', 'bullet', 'quote', 'tableHeader', 'tableCell', 'divider',
+    'toolName', 'toolDescription', 'toolBox', 'toolLabel', 'toolContent',
 ];
 
 export const DEFAULT_CONFIG: StyleConfig = {

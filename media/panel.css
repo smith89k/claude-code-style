@@ -26,7 +26,8 @@ input:focus, select:focus { outline: 1px solid var(--vscode-focusBorder); }
 input[type="number"] { width: 64px; }
 #styles { border-collapse: collapse; width: 100%; min-width: 880px; }
 .table-scroll { overflow-x: auto; }
-td.item { white-space: nowrap; }
+td.item { min-width: 150px; max-width: 230px; }
+td.item .example { color: var(--vscode-descriptionForeground); font-size: 12px; }
 td.off { opacity: 0.35; }
 th { text-align: left; font-size: 12px; color: var(--vscode-descriptionForeground); padding: 4px; }
 td { padding: 3px 4px; }
