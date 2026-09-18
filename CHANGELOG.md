@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.4.0
+
+- New **Preset** menu: fill every colour from Dracula, Catppuccin Latte / Frappé / Macchiato / Mocha, Nord, Gruvbox Dark / Light, One Dark or Tokyo Night / Storm / Day.
+- Presets change only colours; fonts, sizes and other styles are kept.
+- Light presets are marked "For light editor themes".
+
 ## 0.3.1
 
 - First public release on the VS Code Marketplace and Open VSX.

@@ -14,6 +14,7 @@ Khmer text often looks too small next to English at the same size. This extensio
 - **Separate English and Khmer sizes.** Khmer can be larger or smaller than English. English text is never affected.
 - **Style every item in a reply.** Set the font, size, colour, background, border, weight, italic and underline for:
   normal text, headings 1–6, bold, italic, crossed-out, links, inline code, code blocks, list items, bullets and numbers, quotes, table headers, table cells and divider lines.
+- **Theme presets.** One click fills every colour from Dracula, Catppuccin (Latte, Frappé, Macchiato, Mocha), Nord, Gruvbox, One Dark or Tokyo Night.
 - **Live preview.** A mock Claude Code chat updates as you type, so you can see the result before you apply it.
 - **Terminal support.** Your fonts also apply to the integrated terminal, including the separate Khmer size.
 - **Survives Claude Code updates.** When Claude Code updates, your styles are added back automatically at startup.
@@ -24,6 +25,20 @@ Khmer text often looks too small next to English at the same size. This extensio
 ![The Claude Style Settings page with font pickers and the text style table](https://github.com/smith89k/claude-code-style/raw/HEAD/images/settings.png)
 
 Leave any box empty to keep Claude Code's normal look for that item. Boxes that don't apply to an item are greyed out.
+
+## Presets
+
+Pick a theme from the **Preset** menu above the style table. It fills in every colour box at once. You can still change any box afterwards, and nothing is saved until you click **Apply**.
+
+| Dark | Light |
+|---|---|
+| Dracula · Catppuccin Frappé · Catppuccin Macchiato · Catppuccin Mocha · Nord · Gruvbox Dark · One Dark · Tokyo Night · Tokyo Night Storm | Catppuccin Latte · Gruvbox Light · Tokyo Night Day |
+
+![Catppuccin Mocha on a dark editor theme next to Catppuccin Latte on a light editor theme](https://github.com/smith89k/claude-code-style/raw/HEAD/images/presets.png)
+
+- Presets only change colours. Your fonts, sizes, weight, italic and underline stay as they are.
+- The chat background follows your editor's colour theme, so pick a **light** preset if your editor theme is light, and a **dark** one if it is dark.
+- Colours come from each theme's official open-source palette. Theme names belong to their authors, and this extension is not affiliated with them.
 
 ## Getting started
 

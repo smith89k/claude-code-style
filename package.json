@@ -2,7 +2,7 @@
   "name": "claude-code-style",
   "displayName": "Claude Code Style",
   "description": "Pick your own English and Khmer fonts and sizes, and style every kind of text in the Claude Code chat panel.",
-  "version": "0.3.1",
+  "version": "0.4.0",
   "publisher": "smith89k",
   "icon": "logo.png",
   "license": "MIT",
@@ -89,7 +89,8 @@
     "vscode:prepublish": "npm run compile",
     "compile": "tsc -p ./",
     "watch": "tsc -watch -p ./",
-    "test": "tsc -p ./ && node --test \"out/test/*.test.js\""
+    "test": "tsc -p ./ && node --test \"out/test/*.test.js\"",
+    "screenshots": "npm run compile && node tools/screenshot.js"
   },
   "devDependencies": {
     "@types/node": "^18.0.0",
