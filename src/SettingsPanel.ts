@@ -3,7 +3,7 @@ import * as fs from 'fs';
 import * as crypto from 'crypto';
 import { applyStyles, readConfig, removeStyles } from './settingsApplier';
 import { fontFamilies, listSystemFonts } from './systemFonts';
-import { buildCss, chatFamilyList } from './cssBuilder';
+import { PREVIEW_SCOPE, PREVIEW_TOOL_SCOPE, buildCss, chatFamilyList, previewSelectors } from './cssBuilder';
 import { sanitizeConfig } from './styleConfig';
 import { presetMessages } from './presets';
 
@@ -53,14 +53,14 @@ export class SettingsPanel {
         switch (message.type) {
             case 'ready': {
                 const fonts = fontFamilies(await listSystemFonts());
-                await this._post({ type: 'init', config: readConfig(), fonts, presets: presetMessages() });
+                await this._post({ type: 'init', config: readConfig(), fonts, presets: presetMessages(), highlights: previewSelectors() });
                 return;
             }
             case 'preview': {
                 const cfg = sanitizeConfig(message.config);
                 await this._post({
                     type: 'previewCss',
-                    css: buildCss(cfg, '#preview .md'),
+                    css: buildCss(cfg, PREVIEW_SCOPE, PREVIEW_TOOL_SCOPE),
                     family: chatFamilyList(cfg),
                     size: cfg.englishSize,
                 });
@@ -90,7 +90,7 @@ export class SettingsPanel {
             }
             case 'reset': {
                 await removeStyles(this._ctx);
-                await this._post({ type: 'init', config: readConfig(), fonts: fontFamilies(await listSystemFonts()), presets: presetMessages() });
+                await this._post({ type: 'init', config: readConfig(), fonts: fontFamilies(await listSystemFonts()), presets: presetMessages(), highlights: previewSelectors() });
                 await this._post({ type: 'status', text: 'Back to normal. Reload the window to see it.', kind: 'ok' });
                 return;
             }

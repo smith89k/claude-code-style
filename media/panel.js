@@ -34,6 +34,7 @@
     const NO_TEXT = ['divider', 'toolBox'];
     const NO_BACKGROUND = ['bullet', 'divider', 'toolName', 'toolDescription', 'toolLabel', 'toolContent'];
     const HAS_BORDER = ['code', 'codeBlock', 'quote', 'tableHeader', 'tableCell', 'divider', 'toolBox'];
+    const GROUP_BEFORE = { text: "Claude's reply", toolName: 'Tool box' };
     const WEIGHTS = ['', 'normal', '300', '400', '500', '600', 'bold', '800', '900'];
     const HEX6 = /^#[0-9a-f]{6}$/i;
 
@@ -80,9 +81,18 @@
 
     function buildRows() {
         for (const key of KEYS) {
+            if (GROUP_BEFORE[key]) {
+                const group = el('tr', { className: 'group' });
+                group.append(el('th', { colSpan: 9, textContent: GROUP_BEFORE[key] }));
+                tbody.append(group);
+            }
             const noText = NO_TEXT.includes(key);
             const row = el('tr');
             row.dataset.key = key;
+            row.addEventListener('mouseenter', () => showHighlight(key));
+            row.addEventListener('mouseleave', () => showHighlight(focusedKey()));
+            row.addEventListener('focusin', () => showHighlight(key));
+            row.addEventListener('focusout', () => setTimeout(() => showHighlight(focusedKey()), 0));
             const [name, brackets] = LABELS[key];
             const item = el('td', { textContent: name, className: 'item' });
             if (brackets) {
@@ -111,7 +121,7 @@
 
     function readForm() {
         const elements = {};
-        for (const row of tbody.querySelectorAll('tr')) {
+        for (const row of tbody.querySelectorAll('tr[data-key]')) {
             const style = {};
             const value = (cls) => {
                 const input = field(row, cls);
@@ -163,7 +173,7 @@
         if (!preset) {
             return;
         }
-        for (const row of tbody.querySelectorAll('tr')) {
+        for (const row of tbody.querySelectorAll('tr[data-key]')) {
             const style = preset.elements[row.dataset.key] || {};
             for (const prop of COLOR_PROPS) {
                 setColor(row, prop, style[prop]);
@@ -179,12 +189,32 @@
         }
     }
 
+    /** @type {Record<string, string>} */
+    let highlights = {};
+
+    function focusedKey() {
+        const row = document.activeElement && document.activeElement.closest('tr[data-key]');
+        return row ? /** @type {HTMLElement} */ (row).dataset.key || '' : '';
+    }
+
+    // Outline the preview parts that a row styles
+    function showHighlight(key) {
+        for (const node of document.querySelectorAll('.ccs-highlight')) {
+            node.classList.remove('ccs-highlight');
+        }
+        if (key && highlights[key]) {
+            for (const node of document.querySelectorAll(highlights[key])) {
+                node.classList.add('ccs-highlight');
+            }
+        }
+    }
+
     function fillForm(config) {
         $('englishFont').value = config.englishFont;
         $('englishSize').value = String(config.englishSize);
         $('khmerFont').value = config.khmerFont;
         $('khmerSize').value = String(config.khmerSize);
-        for (const row of tbody.querySelectorAll('tr')) {
+        for (const row of tbody.querySelectorAll('tr[data-key]')) {
             const style = config.elements[row.dataset.key] || {};
             field(row, 'f-font').value = style.font || '';
             field(row, 'f-size').value = style.size ? String(style.size) : '';
@@ -220,6 +250,7 @@
             fillList('allFonts', msg.fonts.all);
             fillList('khmerFonts', msg.fonts.khmer.length ? msg.fonts.khmer : msg.fonts.all);
             fillPresets(msg.presets || []);
+            highlights = msg.highlights || {};
             fillForm(msg.config);
             changed();
         } else if (msg.type === 'previewCss') {

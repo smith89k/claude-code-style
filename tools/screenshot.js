@@ -6,7 +6,7 @@ const path = require('path');
 const { execFileSync } = require('child_process');
 
 const root = path.join(__dirname, '..');
-const { buildCss, chatFamilyList } = require(path.join(root, 'out', 'cssBuilder.js'));
+const { PREVIEW_SCOPE, PREVIEW_TOOL_SCOPE, buildCss, chatFamilyList, previewSelectors } = require(path.join(root, 'out', 'cssBuilder.js'));
 const { sanitizeConfig } = require(path.join(root, 'out', 'styleConfig.js'));
 const { PRESETS, presetElements, presetMessages } = require(path.join(root, 'out', 'presets.js'));
 
@@ -52,8 +52,8 @@ function configFor(presetId) {
 
 // Stands in for the extension host: answers the page's messages like SettingsPanel does
 function shim(config) {
-    const init = { type: 'init', config, fonts: FONTS, presets: presetMessages() };
-    const preview = { type: 'previewCss', css: buildCss(config, '#preview .md'), family: chatFamilyList(config), size: config.englishSize };
+    const init = { type: 'init', config, fonts: FONTS, presets: presetMessages(), highlights: previewSelectors() };
+    const preview = { type: 'previewCss', css: buildCss(config, PREVIEW_SCOPE, PREVIEW_TOOL_SCOPE), family: chatFamilyList(config), size: config.englishSize };
     return `window.acquireVsCodeApi = () => ({
   postMessage(msg) {
     const reply = (data) => setTimeout(() => window.postMessage(data, '*'), 0);

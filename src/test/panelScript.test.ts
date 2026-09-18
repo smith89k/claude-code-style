@@ -62,3 +62,17 @@ test('bullet brackets come from a bullet list and a numbered list', () => {
     assert.match(html, /<ul>\s*<li>[\s\S]*?<li>/);
     assert.match(html, /<ol>\s*<li>[\s\S]*?<li>/);
 });
+
+test('preview tool box carries the Claude Code class prefixes', () => {
+    const html = fs.readFileSync(path.join(media, 'panel.html'), 'utf8');
+    for (const prefix of ['toolNameText_', 'toolNameTextSecondaryPlaintext_', 'toolBody_', 'toolBodyRow_', 'toolBodyRowLabel_', 'toolBodyRowContent_']) {
+        assert.ok(html.includes(`${prefix}preview`), prefix);
+    }
+});
+
+test('panel.js groups rows and walks only style rows', () => {
+    const js = fs.readFileSync(path.join(media, 'panel.js'), 'utf8');
+    assert.ok(js.includes(`text: "Claude's reply"`), 'reply group');
+    assert.ok(js.includes(`toolName: 'Tool box'`), 'tool group');
+    assert.ok(!js.includes(`querySelectorAll('tr')`), 'group rows have no data-key');
+});

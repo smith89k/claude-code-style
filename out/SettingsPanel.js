@@ -44,14 +44,14 @@ class SettingsPanel {
         switch (message.type) {
             case 'ready': {
                 const fonts = (0, systemFonts_1.fontFamilies)(await (0, systemFonts_1.listSystemFonts)());
-                await this._post({ type: 'init', config: (0, settingsApplier_1.readConfig)(), fonts, presets: (0, presets_1.presetMessages)() });
+                await this._post({ type: 'init', config: (0, settingsApplier_1.readConfig)(), fonts, presets: (0, presets_1.presetMessages)(), highlights: (0, cssBuilder_1.previewSelectors)() });
                 return;
             }
             case 'preview': {
                 const cfg = (0, styleConfig_1.sanitizeConfig)(message.config);
                 await this._post({
                     type: 'previewCss',
-                    css: (0, cssBuilder_1.buildCss)(cfg, '#preview .md'),
+                    css: (0, cssBuilder_1.buildCss)(cfg, cssBuilder_1.PREVIEW_SCOPE, cssBuilder_1.PREVIEW_TOOL_SCOPE),
                     family: (0, cssBuilder_1.chatFamilyList)(cfg),
                     size: cfg.englishSize,
                 });
@@ -81,7 +81,7 @@ class SettingsPanel {
             }
             case 'reset': {
                 await (0, settingsApplier_1.removeStyles)(this._ctx);
-                await this._post({ type: 'init', config: (0, settingsApplier_1.readConfig)(), fonts: (0, systemFonts_1.fontFamilies)(await (0, systemFonts_1.listSystemFonts)()), presets: (0, presets_1.presetMessages)() });
+                await this._post({ type: 'init', config: (0, settingsApplier_1.readConfig)(), fonts: (0, systemFonts_1.fontFamilies)(await (0, systemFonts_1.listSystemFonts)()), presets: (0, presets_1.presetMessages)(), highlights: (0, cssBuilder_1.previewSelectors)() });
                 await this._post({ type: 'status', text: 'Back to normal. Reload the window to see it.', kind: 'ok' });
                 return;
             }
