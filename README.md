@@ -12,8 +12,8 @@ Khmer text often looks too small next to English at the same size. This extensio
 
 - **Separate English and Khmer fonts.** Pick any font installed on your computer for each language.
 - **Separate English and Khmer sizes.** Khmer can be larger or smaller than English. English text is never affected.
-- **Style every item in a reply.** Set the font, size, colour, background, border, weight, italic and underline for:
-  normal text, headings 1–6, bold, italic, crossed-out, links, inline code, code blocks, list items, bullets and numbers, quotes, table headers, table cells and divider lines.
+- **Style every item in a reply and the tool box.** Set the font, size, colour, background, border, weight, italic and underline for:
+  normal text, headings 1–6, bold, italic, crossed-out, links, inline code, code blocks, list items, bullets and numbers, quotes, table headers, table cells and divider lines, plus the tool box: tool name (e.g. **Bash**), tool description, the box itself, the IN / OUT labels and their content.
 - **Theme presets.** One click fills every colour from Dracula, Catppuccin (Latte, Frappé, Macchiato, Mocha), Nord, Gruvbox, One Dark or Tokyo Night.
 - **Live preview.** A mock Claude Code chat updates as you type, so you can see the result before you apply it.
 - **Terminal support.** Your fonts also apply to the integrated terminal, including the separate Khmer size.
@@ -24,7 +24,7 @@ Khmer text often looks too small next to English at the same size. This extensio
 
 ![The Claude Style Settings page with font pickers and the text style table](https://github.com/smith89k/claude-code-style/raw/HEAD/images/settings.png)
 
-Leave any box empty to keep Claude Code's normal look for that item. Boxes that don't apply to an item are greyed out.
+Rows are grouped into **Claude's reply** and **Tool box**. The text in brackets, such as *Tool name (Bash)*, is exactly what that row styles in the preview, and hovering a row outlines it there. Leave any box empty to keep Claude Code's normal look for that item. Boxes that don't apply to an item are greyed out.
 
 ## Presets
 
@@ -66,7 +66,7 @@ You normally change these from the settings page, but they can also be edited in
 | `claudeCodeStyle.englishSize` | `14` | Size in px for English text (6–100). |
 | `claudeCodeStyle.khmerFont` | `Khmer OS System` | Font for Khmer text. |
 | `claudeCodeStyle.khmerSize` | `14` | Size in px for Khmer text (6–100). |
-| `claudeCodeStyle.elements` | `{}` | Styles per chat item. Each item takes `font`, `size`, `color`, `background`, `border`, `weight`, `italic`, `underline`. |
+| `claudeCodeStyle.elements` | `{}` | Styles per chat item: `text`, `h1`–`h6`, `bold`, `italic`, `strike`, `link`, `code`, `codeBlock`, `list`, `bullet`, `quote`, `tableHeader`, `tableCell`, `divider`, `toolName`, `toolDescription`, `toolBox`, `toolLabel`, `toolContent`. Each takes `font`, `size`, `color`, `background`, `border`, `weight`, `italic`, `underline`. |
 
 Example:
 

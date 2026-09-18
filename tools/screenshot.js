@@ -92,7 +92,7 @@ for (const f of ['panel.css', 'panel.js']) {
     fs.copyFileSync(path.join(root, 'media', f), path.join(work, f));
 }
 
-shoot(writePage('settings', configFor('dracula'), 'dark', ''), 'settings.png', 940, 1050);
+shoot(writePage('settings', configFor('dracula'), 'dark', ''), 'settings.png', 1140, 1320);
 shoot(writePage('preview', configFor('dracula'), 'dark', PREVIEW_ONLY), 'preview.png', 760, 1015);
 
 writePage('mocha', configFor('catppuccin-mocha'), 'dark', PREVIEW_ONLY);

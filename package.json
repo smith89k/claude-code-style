@@ -2,7 +2,7 @@
   "name": "claude-code-style",
   "displayName": "Claude Code Style",
   "description": "Pick your own English and Khmer fonts and sizes, and style every kind of text in the Claude Code chat panel.",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "publisher": "smith89k",
   "icon": "logo.png",
   "license": "MIT",

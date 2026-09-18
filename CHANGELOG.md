@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.5.0
+
+- Style the **tool box**: tool name (e.g. Bash), tool description, box background and border, IN / OUT labels and their content. Presets colour it too.
+- Every row now shows the exact preview text it styles in brackets, e.g. *Tool name (Bash)*, and rows are grouped into *Claude's reply* and *Tool box*.
+- Hovering or editing a row outlines that part of the preview.
+- Renamed *Italic text* to *Italic* and *Code snippet* to *Inline code* to match the preview. Saved settings are unchanged.
+
 ## 0.4.0
 
 - New **Preset** menu: fill every colour from Dracula, Catppuccin Latte / Frappé / Macchiato / Mocha, Nord, Gruvbox Dark / Light, One Dark or Tokyo Night / Storm / Day.
