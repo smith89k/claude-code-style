@@ -67,4 +67,8 @@ function panelLabels() {
     assert.ok(js.includes(`toolName: 'Tool box'`), 'tool group');
     assert.ok(!js.includes(`querySelectorAll('tr')`), 'group rows have no data-key');
 });
+(0, node_test_1.test)('preview OUT row has the inner result box Claude Code draws', () => {
+    const html = fs.readFileSync(path.join(media, 'panel.html'), 'utf8');
+    assert.match(html, /toolBodyRowContent_preview"><div class="tool-result toolResult_preview">cssBuilder\.ts/);
+});
 //# sourceMappingURL=panelScript.test.js.map

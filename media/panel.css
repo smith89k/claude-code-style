@@ -114,6 +114,8 @@ button.secondary:hover { background: var(--vscode-button-secondaryHoverBackgroun
 #preview .tool-row:first-child { border-top: none; }
 #preview .tool-label { opacity: .5; color: var(--pv-muted); font-family: var(--pv-mono); font-size: .85em; padding: 4px 8px 4px 4px; }
 #preview .tool-content { white-space: pre-wrap; word-break: break-word; padding: 4px; }
+/* Claude Code wraps tool output in its own box with the code background */
+#preview .tool-result { background: var(--vscode-textCodeBlock-background, #7f7f7f26); }
 #preview .mono { font-family: var(--pv-mono); }
 #preview .input-box {
     margin-top: 16px;

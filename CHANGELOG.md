@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.5.1
+
+- Fixed: the OUT output area of the tool box kept Claude Code's own background. *IN / OUT content* now has a Background box that also colours the OUT output, and presets fill it to match the tool box.
+
 ## 0.5.0
 
 - Style the **tool box**: tool name (e.g. Bash), tool description, box background and border, IN / OUT labels and their content. Presets colour it too.

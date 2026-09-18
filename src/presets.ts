@@ -54,7 +54,7 @@ const MAPPING: Record<ElementKey, RoleFields> = {
     toolDescription: { color: 'blue' },
     toolBox: { background: 'deep', border: 'line' },
     toolLabel: { color: 'muted' },
-    toolContent: { color: 'text' },
+    toolContent: { color: 'text', background: 'deep' },
 };
 
 // Values copied from each theme's official palette (sources in the plan / spec)

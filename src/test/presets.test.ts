@@ -60,7 +60,7 @@ test('mapping spot checks on Catppuccin Mocha', () => {
     assert.deepEqual(e.toolDescription, { color: '#89b4fa' });
     assert.deepEqual(e.toolBox, { background: '#181825', border: '#585b70' });
     assert.deepEqual(e.toolLabel, { color: '#7f849c' });
-    assert.deepEqual(e.toolContent, { color: '#cdd6f4' });
+    assert.deepEqual(e.toolContent, { color: '#cdd6f4', background: '#181825' });
 });
 
 test('presetMessages carries id, label, group and elements', () => {

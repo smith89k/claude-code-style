@@ -35,7 +35,8 @@ const TARGETS = {
     toolLabel: { text: [cls('toolBodyRowLabel')], box: [], tool: true, fullOpacity: true },
     toolContent: {
         text: [cls('toolBodyRowContent'), `${cls('toolBodyRowContent')} pre`, `${cls('toolBodyRowContent')} code`],
-        box: [],
+        // OUT is drawn in an inner result box with its own code background
+        box: [cls('toolBodyRowContent'), `${cls('toolBodyRowContent')} ${cls('toolResult')}`],
         tool: true,
     },
 };

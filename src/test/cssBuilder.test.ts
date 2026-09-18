@@ -169,3 +169,8 @@ test('previewSelectors scopes each row and drops pseudo-elements', () => {
     assert.equal(s.toolBox, '#preview [class*="toolBody_"]');
     assert.equal(s.toolLabel, '#preview [class*="toolBodyRowLabel_"]');
 });
+
+test('tool content background also covers the OUT result box inside it', () => {
+    const css = cssFor({ toolContent: { background: '#111111' } });
+    assert.match(css, /\[class\*="toolBodyRowContent_"\], \[class\*="toolBodyRowContent_"\] \[class\*="toolResult_"\] {\n  background: #111111;\n}/);
+});

@@ -32,7 +32,7 @@
     };
     // Which boxes make sense for each row; the rest are disabled
     const NO_TEXT = ['divider', 'toolBox'];
-    const NO_BACKGROUND = ['bullet', 'divider', 'toolName', 'toolDescription', 'toolLabel', 'toolContent'];
+    const NO_BACKGROUND = ['bullet', 'divider', 'toolName', 'toolDescription', 'toolLabel'];
     const HAS_BORDER = ['code', 'codeBlock', 'quote', 'tableHeader', 'tableCell', 'divider', 'toolBox'];
     const GROUP_BEFORE = { text: "Claude's reply", toolName: 'Tool box' };
     const WEIGHTS = ['', 'normal', '300', '400', '500', '600', 'bold', '800', '900'];
