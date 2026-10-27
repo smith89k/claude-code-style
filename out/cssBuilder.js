@@ -20,7 +20,8 @@ const TARGETS = {
     bold: same('strong', 'b'),
     italic: same('em', 'i'),
     strike: same('del', 's'),
-    link: same('a'),
+    // Option previews draw links as plain text spans instead of a tags
+    link: same('a', cls('textLink')),
     code: { ...same(':not(pre) > code'), border: { selectors: [':not(pre) > code'], kind: 'box' } },
     codeBlock: { text: ['pre code'], box: ['pre'], border: { selectors: ['pre'], kind: 'box' } },
     list: same('li'),
@@ -30,7 +31,12 @@ const TARGETS = {
     tableCell: { ...same('td'), border: { selectors: ['table', 'td'], kind: 'color' } },
     divider: { text: [], box: [], border: { selectors: ['hr'], kind: 'top' } },
     toolName: { text: [cls('toolNameText')], box: [], tool: true },
-    toolDescription: { text: [cls('toolNameTextSecondary'), cls('toolNameTextSecondaryPlaintext')], box: [], tool: true },
+    // Claude Code colours the file link inside the description on its own
+    toolDescription: {
+        text: [cls('toolNameTextSecondary'), cls('toolNameTextSecondaryPlaintext'), `${cls('toolNameTextSecondary')} a`],
+        box: [],
+        tool: true,
+    },
     toolBox: { text: [], box: [cls('toolBody')], border: { selectors: [cls('toolBody'), cls('toolBodyRow')], kind: 'color' }, tool: true },
     toolLabel: { text: [cls('toolBodyRowLabel')], box: [], tool: true, fullOpacity: true },
     toolContent: {

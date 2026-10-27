@@ -65,7 +65,7 @@ test('buildCss writes only filled element properties', () => {
     }), '.root_x');
     assert.match(css, /\.root_x h1 {\n  font-size: 22px;\n  color: #ffb86c;\n  font-weight: bold;\n  font-style: normal;\n}/);
     assert.match(css, /\.root_x strong, \.root_x b {\n  color: #f1fa8c;\n}/);
-    assert.match(css, /\.root_x a {\n  font-family: 'Kantumruy Pro', 'CCS Khmer', 'Khmer OS System', monospace;\n}/);
+    assert.match(css, /\.root_x a, \.root_x \[class\*="textLink_"\] {\n  font-family: 'Kantumruy Pro', 'CCS Khmer', 'Khmer OS System', monospace;\n}/);
     assert.doesNotMatch(css, /h2/);
 });
 
@@ -114,7 +114,7 @@ test('bullets take text styles but no background', () => {
     const css = cssFor({ bullet: { color: '#bd93f9', background: '#000000' }, link: { underline: false } });
     assert.match(css, /\.root_x li::marker {\n  color: #bd93f9;\n}/);
     assert.doesNotMatch(css, /marker {[^}]*background/);
-    assert.match(css, /\.root_x a {\n  text-decoration: none;\n}/);
+    assert.match(css, /\.root_x a, \.root_x \[class\*="textLink_"\] {\n  text-decoration: none;\n}/);
 });
 
 test('new text rows map to their tags', () => {
@@ -150,7 +150,17 @@ test('IN / OUT label colour shows at full opacity', () => {
 
 test('tool description covers both Claude Code variants', () => {
     const css = cssFor({ toolDescription: { italic: true } });
-    assert.match(css, /\[class\*="toolNameTextSecondary_"\], \[class\*="toolNameTextSecondaryPlaintext_"\] {\n  font-style: italic;\n}/);
+    assert.match(css, /\[class\*="toolNameTextSecondary_"\], \[class\*="toolNameTextSecondaryPlaintext_"\], \[class\*="toolNameTextSecondary_"\] a {\n  font-style: italic;\n}/);
+});
+
+test('tool description colour reaches the file link Claude Code colours itself', () => {
+    const css = cssFor({ toolDescription: { color: '#89b4fa' } });
+    assert.match(css, /\[class\*="toolNameTextSecondary_"\] a {\n  color: #89b4fa;\n}/);
+});
+
+test('links also cover the plain-text links Claude Code draws without an a tag', () => {
+    const css = cssFor({ link: { color: '#89b4fa' } });
+    assert.match(css, /\.root_x a, \.root_x \[class\*="textLink_"\] {\n  color: #89b4fa;\n}/);
 });
 
 test('tool content styles its pre and code too', () => {

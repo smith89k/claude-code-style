@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.5.2
+
+- Works with Claude Code 2.1.311.
+- Fixed: *Tool description* colour did not reach the file name next to a tool, which newer Claude Code colours on its own.
+- *Link* now also styles the plain-text links in question option previews.
+
 ## 0.5.1
 
 - Fixed: the OUT output area of the tool box kept Claude Code's own background. *IN / OUT content* now has a Background box that also colours the OUT output, and presets fill it to match the tool box.
