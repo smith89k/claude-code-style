@@ -1,4 +1,22 @@
+<div align="center">
+
+<img src="art/logo.svg" width="112" height="112" alt="Claude Code Style logo">
+
 # Claude Code Style
+
+**Choose your own English and Khmer fonts, sizes and colours for every kind of text in the Claude Code chat panel.**
+
+<a href="https://open-vsx.org/extension/smith89k/claude-code-style"><img src="https://img.shields.io/open-vsx/v/smith89k/claude-code-style?label=Open%20VSX&color=C6522A" alt="Open VSX"></a>
+<a href="https://marketplace.visualstudio.com/items?itemName=smith89k.claude-code-style"><img src="https://img.shields.io/visual-studio-marketplace/v/smith89k.claude-code-style?label=VS%20Marketplace&color=007ACC" alt="VS Marketplace"></a>
+<img src="https://img.shields.io/badge/Khmer-own%20size-6E9EC9" alt="Khmer gets its own size">
+<a href="https://github.com/smith89k/claude-code-style/blob/main/LICENSE"><img src="https://img.shields.io/github/license/smith89k/claude-code-style" alt="Licence"></a>
+
+</div>
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="art/banner-dark.png">
+  <img src="art/banner-light.png" alt="Claude Code Style: the same Claude Code reply shown with the default styling and with custom fonts, sizes and colours." width="100%">
+</picture>
 
 Choose your own **English and Khmer fonts and sizes**, and style every kind of text in the **Claude Code** chat panel: headings, bold, links, code, quotes, tables and more.
 
