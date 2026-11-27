@@ -14,8 +14,8 @@
 </div>
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="art/banner-dark.png">
-  <img src="art/banner-light.png" alt="Claude Code Style: the same Claude Code reply shown with the default styling and with custom fonts, sizes and colours." width="100%">
+  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/smith89k/claude-code-style/raw/HEAD/art/banner-dark.png">
+  <img src="https://github.com/smith89k/claude-code-style/raw/HEAD/art/banner-light.png" alt="Claude Code Style: the same Claude Code reply shown with the default styling and with custom fonts, sizes and colours." width="100%">
 </picture>
 
 Choose your own **English and Khmer fonts and sizes**, and style every kind of text in the **Claude Code** chat panel: headings, bold, links, code, quotes, tables and more.

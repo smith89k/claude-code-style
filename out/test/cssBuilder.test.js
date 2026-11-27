@@ -34,6 +34,9 @@ const base = {
     assert.equal((0, cssBuilder_1.chatFamilyList)((0, styleConfig_1.sanitizeConfig)(base)), `'JetBrains Mono', 'CCS Khmer', 'Khmer OS System', monospace`);
     assert.equal((0, cssBuilder_1.chatFamilyList)((0, styleConfig_1.sanitizeConfig)(base), 'Kantumruy Pro'), `'Kantumruy Pro', 'CCS Khmer', 'Khmer OS System', monospace`);
 });
+(0, node_test_1.test)('chatFamilyList puts a resized khmer font after the alias, for chats without our css', () => {
+    assert.equal((0, cssBuilder_1.chatFamilyList)((0, styleConfig_1.sanitizeConfig)(base), undefined, 'CCS Khmer OS System 93'), `'JetBrains Mono', 'CCS Khmer', 'CCS Khmer OS System 93', 'Khmer OS System', monospace`);
+});
 (0, node_test_1.test)('buildCss writes font-face with size-adjust and unicode-range', () => {
     const css = (0, cssBuilder_1.buildCss)((0, styleConfig_1.sanitizeConfig)(base), '.root_x');
     assert.match(css, /@font-face\s*{[^}]*font-family: "CCS Khmer";/);

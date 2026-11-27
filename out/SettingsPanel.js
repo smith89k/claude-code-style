@@ -61,7 +61,7 @@ class SettingsPanel {
                 const summary = await (0, settingsApplier_1.applyStyles)(this._ctx, (0, styleConfig_1.sanitizeConfig)(message.config));
                 const notes = [...summary.warnings];
                 if (summary.needsRestart) {
-                    notes.push('A resized Khmer font was installed for the terminal: close and reopen Antigravity to see it there.');
+                    notes.push(`A resized Khmer font was installed for the terminal and ${vscode.env.appName}'s own chat: close and reopen ${vscode.env.appName} to see it there.`);
                 }
                 if (summary.needsReload) {
                     notes.push('Reload the window to see the new styles in Claude Code.');

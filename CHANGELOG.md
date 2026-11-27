@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.5.3
+
+- VS Code's own chat panel now gets the separate Khmer size too, using the same resized Khmer font as the terminal. Your English font and size already reached it.
+- The "close and reopen" message now names the editor you are using, instead of always saying Antigravity.
+
 ## 0.5.2
 
 - Works with Claude Code 2.1.311.

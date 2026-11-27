@@ -38,23 +38,22 @@ async function rememberPrevious(ctx) {
     }
     await ctx.globalState.update(PREVIOUS_KEY, previous);
 }
-async function terminalFamily(cfg, warnings) {
-    const plain = `'${cfg.englishFont}', '${cfg.khmerFont}', monospace`;
+// The terminal and VS Code's own chat cannot use our css, so they get a resized copy of the Khmer font
+async function resizedKhmer(cfg, warnings) {
     if (cfg.khmerSize === cfg.englishSize) {
-        return { family: plain, created: false };
+        return { created: false };
     }
     const source = (await (0, systemFonts_1.listSystemFonts)()).find((f) => f.name === cfg.khmerFont);
     if (!source) {
-        warnings.push(`Could not find the file for "${cfg.khmerFont}", so Khmer in the terminal keeps the English size.`);
-        return { family: plain, created: false };
+        warnings.push(`Could not find the file for "${cfg.khmerFont}", so Khmer in the terminal and VS Code's chat keeps the English size.`);
+        return { created: false };
     }
     try {
-        const result = await (0, fontInstaller_1.ensureResizedFont)(source, (0, cssBuilder_1.khmerScale)(cfg));
-        return { family: `'${cfg.englishFont}', '${result.family}', monospace`, created: result.created };
+        return await (0, fontInstaller_1.ensureResizedFont)(source, (0, cssBuilder_1.khmerScale)(cfg));
     }
     catch (err) {
-        warnings.push(`Could not resize "${cfg.khmerFont}" for the terminal: ${err.message}`);
-        return { family: plain, created: false };
+        warnings.push(`Could not resize "${cfg.khmerFont}" for the terminal and VS Code's chat: ${err.message}`);
+        return { created: false };
     }
 }
 async function applyStyles(ctx, raw) {
@@ -68,15 +67,17 @@ async function applyStyles(ctx, raw) {
     await own.update('khmerSize', cfg.khmerSize, TARGET);
     await own.update('elements', cfg.elements, TARGET);
     const config = vscode.workspace.getConfiguration();
-    const chatFamily = (0, cssBuilder_1.chatFamilyList)(cfg);
+    const khmer = await resizedKhmer(cfg, warnings);
+    // chat.* also styles VS Code's own chat panel, which our css never reaches
+    const chatFamily = (0, cssBuilder_1.chatFamilyList)(cfg, cfg.englishFont, khmer.family);
     // Claude Code does not live-reload on chat.fontSize, so a change needs a reload
     const sizeChanged = config.get('chat.fontSize') !== cfg.englishSize;
     await config.update('chat.fontFamily', chatFamily, TARGET);
     await config.update('chat.fontSize', cfg.englishSize, TARGET);
     await config.update('chat.editor.fontFamily', chatFamily, TARGET);
     await config.update('chat.editor.fontSize', cfg.englishSize, TARGET);
-    const terminal = await terminalFamily(cfg, warnings);
-    await config.update('terminal.integrated.fontFamily', terminal.family, TARGET);
+    const terminalFamily = `'${cfg.englishFont}', '${khmer.family ?? cfg.khmerFont}', monospace`;
+    await config.update('terminal.integrated.fontFamily', terminalFamily, TARGET);
     await config.update('terminal.integrated.fontSize', cfg.englishSize, TARGET);
     let cssResult = 'notFound';
     for (const cssPath of (0, claudeCssInjector_1.claudeCssPaths)()) {
@@ -92,9 +93,9 @@ async function applyStyles(ctx, raw) {
     }
     return {
         cssResult,
-        terminalFamily: terminal.family,
+        terminalFamily,
         needsReload: cssResult === 'written' || sizeChanged,
-        needsRestart: terminal.created,
+        needsRestart: khmer.created,
         warnings,
     };
 }
