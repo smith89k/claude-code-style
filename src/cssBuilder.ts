@@ -59,8 +59,11 @@ export function khmerScale(cfg: StyleConfig): number {
     return cfg.khmerSize / cfg.englishSize;
 }
 
-export function chatFamilyList(cfg: StyleConfig, primary: string = cfg.englishFont): string {
-    return `'${primary}', '${KHMER_ALIAS}', '${cfg.khmerFont}', monospace`;
+// The alias only exists where our css is injected (Claude Code). VS Code's own
+// chat skips it, so a resized copy of the Khmer font gives Khmer its size there.
+export function chatFamilyList(cfg: StyleConfig, primary: string = cfg.englishFont, resizedKhmer?: string): string {
+    const resized = resizedKhmer ? `'${resizedKhmer}', ` : '';
+    return `'${primary}', '${KHMER_ALIAS}', ${resized}'${cfg.khmerFont}', monospace`;
 }
 
 function textLines(style: ElementStyle, cfg: StyleConfig): string[] {

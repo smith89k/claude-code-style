@@ -45,6 +45,13 @@ test('chatFamilyList puts alias before real khmer font', () => {
     );
 });
 
+test('chatFamilyList puts a resized khmer font after the alias, for chats without our css', () => {
+    assert.equal(
+        chatFamilyList(sanitizeConfig(base), undefined, 'CCS Khmer OS System 93'),
+        `'JetBrains Mono', 'CCS Khmer', 'CCS Khmer OS System 93', 'Khmer OS System', monospace`
+    );
+});
+
 test('buildCss writes font-face with size-adjust and unicode-range', () => {
     const css = buildCss(sanitizeConfig(base), '.root_x');
     assert.match(css, /@font-face\s*{[^}]*font-family: "CCS Khmer";/);

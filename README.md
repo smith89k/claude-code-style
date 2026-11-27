@@ -35,6 +35,7 @@ Khmer text often looks too small next to English at the same size. This extensio
 - **Theme presets.** One click fills every colour from Dracula, Catppuccin (Latte, Frappé, Macchiato, Mocha), Nord, Gruvbox, One Dark or Tokyo Night.
 - **Live preview.** A mock Claude Code chat updates as you type, so you can see the result before you apply it.
 - **Terminal support.** Your fonts also apply to the integrated terminal, including the separate Khmer size.
+- **VS Code's own chat.** Your fonts and sizes, including the separate Khmer size, also apply to VS Code's built-in chat panel. Colours and other text styles stay in the Claude Code panel only.
 - **Survives Claude Code updates.** When Claude Code updates, your styles are added back automatically at startup.
 - **One-click undo.** *Remove My Styles* restores the chat and terminal font settings you had before.
 
